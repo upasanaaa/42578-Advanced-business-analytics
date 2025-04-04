@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Fake Face Detector
 
 A simple tool that detects AI-generated faces using ResNet50.
