@@ -1,0 +1,27 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+
+#  Virtual environments
+venv/
+venv_ba/
+
+# Model weights and checkpoints
+*.pth
+model_weights/
+
+# Jupyter auto files
+.ipynb_checkpoints/
+
+#  IDE/editor stuff
+.vscode/
+*.DS_Store
+
+# Raw image datasets (exclude actual training/test images)
+data/real/*
+data/fake/*
+!data/real/.gitkeep
+!data/fake/.gitkeep
+

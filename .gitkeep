@@ -1,0 +1,1 @@
+touch data/real/.gitkeep data/fake/.gitkeep model_weights/.gitkeep
