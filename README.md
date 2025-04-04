@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Fake Face Detector
 
 A simple tool that detects AI-generated faces using ResNet50.
@@ -50,9 +51,9 @@ python train.py
 ```bash
 python test.py path/to/your/image.jpg
 ```
-
 ## Notes
 - This model uses ResNet50 for image classification
 - Works with any RGB image format
 - No special face detection required - just center the face in the image
 - Uses GPU if available for faster processing
+
