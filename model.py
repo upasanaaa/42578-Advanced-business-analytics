@@ -9,23 +9,56 @@ import torchvision.transforms as transforms
 class FaceClassifier(nn.Module):
     def __init__(self):
         super(FaceClassifier, self).__init__()
-        # Load pre-trained ResNet50
-        self.model = models.resnet50(pretrained=True)
+        # Use ResNet50 with improved weights
+        self.model = models.resnet50(weights=models.ResNet50_Weights.IMAGENET1K_V2)
         
-        # Replace the final fully connected layer
+        # Extract features
         num_features = self.model.fc.in_features
-        self.model.fc = nn.Sequential(
+        self.model.fc = nn.Identity()  # Remove FC layer
+        
+        # Add spatial attention to focus on facial features
+        self.attention = nn.Sequential(
+            nn.Conv2d(2048, 512, kernel_size=1),
+            nn.ReLU(),
+            nn.Conv2d(512, 1, kernel_size=1),
+            nn.Sigmoid()
+        )
+        
+        # Improved classifier with batch normalization
+        self.classifier = nn.Sequential(
             nn.Dropout(0.5),
-            nn.Linear(num_features, 512),
+            nn.Linear(num_features, 1024),
+            nn.BatchNorm1d(1024),
             nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(512, 128),
+            nn.Dropout(0.4),
+            nn.Linear(1024, 256),
+            nn.BatchNorm1d(256),
             nn.ReLU(),
-            nn.Linear(128, 1)  # Binary classification (real or fake)
+            nn.Linear(256, 1)  # Binary: Real or Fake
         )
     
     def forward(self, x):
-        return self.model(x)
+        # Extract features from backbone
+        x = self.model.conv1(x)
+        x = self.model.bn1(x)
+        x = self.model.relu(x)
+        x = self.model.maxpool(x)
+        
+        x = self.model.layer1(x)
+        x = self.model.layer2(x)
+        x = self.model.layer3(x)
+        features = self.model.layer4(x)
+        
+        # Apply attention
+        attention = self.attention(features)
+        attended_features = features * attention
+        
+        # Global average pooling
+        x = self.model.avgpool(attended_features)
+        x = torch.flatten(x, 1)
+        
+        # Classification
+        return self.classifier(x)
 
 class FaceDataset(Dataset):
     def __init__(self, root_dir, transform=None):
@@ -34,7 +67,7 @@ class FaceDataset(Dataset):
         self.labels = []
         
         # Load all samples from real/fake folders
-        for label, subdir in enumerate(['real', 'fake']):
+        for label, subdir in enumerate(['fake', 'real']):  # 0=fake, 1=real
             folder = os.path.join(root_dir, subdir)
             if not os.path.exists(folder):
                 continue
@@ -58,7 +91,7 @@ class FaceDataset(Dataset):
             
             if self.transform:
                 image = self.transform(image)
-            
+                
             label = torch.tensor([label], dtype=torch.float32)
             return image, label
         except Exception as e:

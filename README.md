@@ -15,7 +15,7 @@ venv\Scripts\activate
 source venv/bin/activate
 
 # Install all dependencies
-pip install -r requirements.txt
+pip install -r requirements-gpu.txt
 ```
 
 ## Folder Structure
@@ -29,6 +29,7 @@ FakeFaceDetector/
 │   ├── real/             # Real face images
 │   └── fake/             # AI-generated face images
 ├── requirements.txt      # Simple dependencies
+├── requirements-gpu.txt  # Simple dependencies
 └── README.md             # Project instructions
 ```
 
