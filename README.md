@@ -16,6 +16,8 @@ source venv/bin/activate
 
 # Install all dependencies
 pip install -r requirements-gpu.txt
+
+# Install Node.js on Windows
 ```
 
 ## Folder Structure
@@ -52,9 +54,16 @@ python train.py
 python test.py path/to/your/image.jpg
 ```
 
-### 4. Backend start command
+### 4. Start the backend
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+### 5. Start the frontend
+```bash
+unzip my-react-app.zip
+cd my-react-app
+npm run dev
 ```
 
 ## Notes
