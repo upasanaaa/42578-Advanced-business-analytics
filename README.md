@@ -51,6 +51,12 @@ python train.py
 ```bash
 python test.py path/to/your/image.jpg
 ```
+
+### 4. Backend start command
+```bash
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
 ## Notes
 - This model uses ResNet50 for image classification
 - Works with any RGB image format
