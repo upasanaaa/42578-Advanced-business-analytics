@@ -22,6 +22,8 @@ model_weights/
 # Raw image datasets (exclude actual training/test images)
 data/real/*
 data/fake/*
+data/train_images/*
 !data/real/.gitkeep
 !data/fake/.gitkeep
+my-react-app/
 
