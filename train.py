@@ -9,7 +9,7 @@ import numpy as np
 from model import FaceClassifier, FaceDataset
 
 # Configuration
-DATA_PATH = "data"
+DATA_PATH = "data/train_images"
 MODEL_PATH = "model_weights/face_detector.pth"
 BATCH_SIZE = 24
 EPOCHS = 20

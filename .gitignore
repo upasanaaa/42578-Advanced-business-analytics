@@ -26,4 +26,5 @@ data/train_images/*
 !data/real/.gitkeep
 !data/fake/.gitkeep
 my-react-app/
+data/*
 

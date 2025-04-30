@@ -7,16 +7,13 @@ A deep learning-powered tool that detects AI-generated (fake) faces using a ResN
 ## 🔧 Environment Setup
 
 1. **Create and activate a virtual environment:**
-
     ```bash
     python -m venv venv
     ```
-
     - **Activate on Windows:**
       ```bash
       venv\Scripts\activate
       ```
-
     - **Activate on macOS/Linux:**
       ```bash
       source venv/bin/activate
@@ -27,14 +24,14 @@ A deep learning-powered tool that detects AI-generated (fake) faces using a ResN
     ```bash
     pip install -r requirements-gpu.txt
     ```
-
+    
     # To run in cpu:
     ```bash
     pip install -r requirements.txt
     ```
 
-3. **(Optional) Install Node.js**  
-   [Download Node.js](https://nodejs.org/)
+3. **(Optional) Install Node.js**
+    [Download Node.js](https://nodejs.org/)
 
 ---
 
@@ -44,13 +41,18 @@ A deep learning-powered tool that detects AI-generated (fake) faces using a ResN
 FakeFaceDetector/
 ├── model.py              # ResNet50 model definition
 ├── train.py              # Training script
-├── test.py               # Prediction script
+├── validation.py         # Single image prediction script
+├── test.py               # Batch testing script with metrics
 ├── main.py               # FastAPI backend
 ├── my-react-app          # Frontend React code
 ├── model_weights/        # Directory for saved model weights
 ├── data/                 # Dataset directory
-│   ├── real/             # Real face images
-│   └── fake/             # AI-generated face images
+│   ├── train_images/     # Training dataset
+│   │   ├── real/         # Real face images
+│   │   └── fake/         # AI-generated face images
+│   └── test_images/      # Testing dataset
+│       ├── real/         # Real face images
+│       └── fake/         # AI-generated face images
 ├── requirements.txt      # Standard dependencies
 ├── requirements-gpu.txt  # GPU-specific dependencies
 └── README.md             # Project documentation
@@ -63,11 +65,11 @@ FakeFaceDetector/
 ### 1. Prepare Your Dataset
 
 ```bash
-mkdir -p data/real data/fake model_weights
+mkdir -p data/train_images/real data/train_images/fake data/test_images/real data/test_images/fake model_weights
 ```
 
-- Place real face images in `data/real/`
-- Place AI-generated face images in `data/fake/`
+- Place real face images in `data/train_images/real/` and `data/test_images/real/`
+- Place AI-generated face images in `data/train_images/fake/` and `data/test_images/fake/`
 
 ---
 
@@ -79,10 +81,16 @@ python train.py
 
 ---
 
-### 3. Test an Image
+### 3. Test the Model
 
+#### Single Image Testing 
 ```bash
-python test.py path/to/your/image.jpg
+python validation.py path/to/your/image.jpg
+```
+
+#### Batch Testing with Metrics
+```bash
+python test.py
 ```
 
 ---
@@ -101,9 +109,9 @@ INFO:     Application startup complete.
 
 in the terminal, open your browser and navigate to:
 
-👉 **[http://localhost:8000/docs#/default/predict_predict_post](http://localhost:8000/docs#/default/predict_predict_post)**  
-to test the prediction endpoint using the FastAPI interactive documentation.  
-  to test the prediction endpoint.
+👉 **[http://localhost:8000/docs#/default/predict_predict_post](http://localhost:8000/docs#/default/predict_predict_post)**
+
+to test the prediction endpoint using the FastAPI interactive documentation.
 
 ---
 
@@ -127,4 +135,3 @@ npm run dev
 - Utilizes **GPU** if available for faster inference.
 - No face detection step required — just centered, cropped face images.
 
----
