@@ -46,6 +46,7 @@ FakeFaceDetector/
 ├── main.py               # FastAPI backend
 ├── my-react-app          # Frontend React code
 ├── model_weights/        # Directory for saved model weights
+├── my-react-app/          # Frontend React code
 ├── data/                 # Dataset directory
 │   ├── train_images/     # Training dataset
 │   │   ├── real/         # Real face images
