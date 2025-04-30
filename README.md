@@ -1,4 +1,4 @@
-# 🧠 Fake Face Detector
+#  Fake Face Detector
 
 A deep learning-powered tool that detects AI-generated (fake) faces using a ResNet50-based image classifier.
 
@@ -35,7 +35,7 @@ A deep learning-powered tool that detects AI-generated (fake) faces using a ResN
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 FakeFaceDetector/
@@ -61,7 +61,7 @@ FakeFaceDetector/
 
 ---
 
-## 🚀 How to Use
+##  How to Use
 
 ### 1. Prepare Your Dataset
 
@@ -129,7 +129,7 @@ npm run dev
 
 ---
 
-## 💡 Notes
+##  Notes
 
 - Model uses **ResNet50** for binary image classification.
 - Works with any **RGB image** (ensure the face is centered).
