@@ -108,7 +108,9 @@ Once you see the message:
 INFO:     Application startup complete.
 ```
 
-in the terminal, open your browser and navigate to:
+in the terminal, go to step 5. 
+
+If you want to see back end go to below link:
 
 👉 **[http://localhost:8000/docs#/default/predict_predict_post](http://localhost:8000/docs#/default/predict_predict_post)**
 
@@ -119,13 +121,13 @@ to test the prediction endpoint using the FastAPI interactive documentation.
 ### 5. Start the Frontend (React)
 
 ```bash
-unzip my-react-app.zip
+unzip my-react-app.zip (can be done manually)
 cd my-react-app
-npm install
+npm install (if needed)
 npm run dev
 ```
 
-- Open the displayed local URL (e.g., `http://localhost:5173/`) to use the web app.
+- Open the displayed local URL (e.g., http://localhost:5173/) to use the web app. For testing, crop the face from an image, ensure the face is centered, save it locally, upload the cropped image, and then click 'Upload and Detect'.
 
 ---
 
