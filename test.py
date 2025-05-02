@@ -8,45 +8,45 @@ from tqdm import tqdm
 from model import FaceClassifier, FaceDataset
 
 def test_model():
-    # Fixed paths from project structure
+
     TEST_DIR = "data/test_images"
-    MODEL_PATH = "model_weights/face_detector.pth"  # Updated path to match your structure
+    MODEL_PATH = "model_weights/face_detector.pth"  #path to the saved model weights
     
-    # Set device
+    #set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
     
-    # Check if model exists
+    #check if model exists
     if not os.path.exists(MODEL_PATH):
         print(f"Error: Model not found at '{MODEL_PATH}'")
         return
     
-    # Define transformations
+    #define transformations
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ])
     
-    # Create dataset and dataloader
+    #create dataset and dataloader
     print("Loading test dataset...")
     test_dataset = FaceDataset(TEST_DIR, transform=transform)
     test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=False)
     print(f"Dataset loaded with {len(test_dataset)} images")
     
-    # Count real and fake samples
+    #count real and fake samples
     real_count = sum(1 for label in test_dataset.labels if label == 1)
     fake_count = len(test_dataset) - real_count
     print(f"Dataset composition: {real_count} real faces, {fake_count} fake faces")
     
-    # Load model
+    #load model
     print("Loading model...")
     model = FaceClassifier().to(device)
     model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
     model.eval()
     print("Model loaded successfully!")
     
-    # Evaluate model
+    #evaluate model
     all_preds = []
     all_labels = []
     
@@ -62,11 +62,11 @@ def test_model():
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
     
-    # Convert to numpy arrays
+    #convert to numpy arrays
     all_preds = np.array(all_preds).flatten()
     all_labels = np.array(all_labels).flatten()
     
-    # Calculate metrics
+    #calculate metrics
     accuracy = accuracy_score(all_labels, all_preds)
     precision = precision_score(all_labels, all_preds)
     recall = recall_score(all_labels, all_preds)
@@ -80,7 +80,7 @@ def test_model():
     print(f"Recall: {recall:.4f}")
     print(f"F1 Score: {f1:.4f}")
     
-    # Calculate confusion matrix
+    #calculate confusion matrix
     cm = confusion_matrix(all_labels, all_preds)
     tn, fp, fn, tp = cm.ravel()
     
@@ -99,7 +99,7 @@ def test_model():
     print(f"False Negatives (Real identified as fake): {fn}")
     print(f"True Positives (Correctly identified real): {tp}")
     
-    # Calculate additional metrics
+    #calculate additional metrics
     specificity = tn / (tn + fp) if (tn + fp) > 0 else 0
     print(f"Specificity: {specificity:.4f}")
     
